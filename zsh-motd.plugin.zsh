@@ -14,7 +14,9 @@ random_word() {
 }
 
 rainbow_dino() {
-    ( hash cowsay 2>/dev/null && cowsay -n -f stegosaurus || cat ) |
+    #custom image for cowsay
+    arr=("apt" "bud-frogs" "bunny" "calvin" "cheese" "cock" "cower" "daemon" "default" "dragon" "dragon-and-cow" "duck" "elephant" "elephant-in-snake" "eyes" "flaming-sheep" "fox" "ghostbusters" "gnu" "hellokitty" "kangaroo" "kiss" "koala" "kosh" "luke-koala" "mech-and-cow" "milk" "moofasa" "moose" "pony" "pony-smaller" "ren" "sheep" "skeleton" "snowman" "stegosaurus" "stimpy" "suse" "three-eyes" "turkey" "turtle" "tux" "unipony" "unipony-smaller" "vader" "vader-koala" "www")
+    ( hash cowsay 2>/dev/null && cowsay -n -f ${arr[$(( $RANDOM % ${#arr[@]} + 1 ))]} || cat ) |
     ( hash lolcat 2>/dev/null && lolcat || cat )
 }
 
@@ -48,10 +50,7 @@ if [ -d /etc/update-motd.d ] && [ ! -e "$HOME/.hushlogin" ] && [ -z "$MOTD_SHOWN
     touch $stamp
     export MOTD_SHOWN=update-motd
 # ZSH MOTD - once every 3 hours
-elif [ ! -z ${ZSH_MOTD_ALWAYS+x} ] || ! find $stamp -mmin -179 2> /dev/null | grep -q -m 1 '.'; then
+else
     print_header
     touch $stamp
-else
-    echo
-    random_word | ( hash lolcat 2>/dev/null && lolcat || cat )
 fi
